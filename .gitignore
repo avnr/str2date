@@ -1,0 +1,5 @@
+
+dist/
+str2date.egg-info/
+str2date/__pycache__/
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#    str2date version 0.9 - JSON Validation Schema
+#    str2date version 0.9 - Proper Parser of ISO 8601 Calendar Date and Time Strings
 #    Copyright (c) 2016 Avner Herskovits
 #
 #    MIT License

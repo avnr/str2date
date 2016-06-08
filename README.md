@@ -8,6 +8,8 @@ Some points to note:
 
 - The delimiter between the date portion and time portion can be either T per the standard or a space character.
 
+- The input format can be either extended as in `'1998-07-06T05:04:03-02:00'` or basic as in `'19980706T050403-0200'`.
+
 - In absence of a timezone UTC is assumed - `str2date` won't ever return a naive date.
 
 - In line with the standard, time can be represented partially as hh, hh:mm, or as a full hh:mm:ss, in all cases followed by an optional fraction that will be properly computed.
@@ -19,6 +21,8 @@ Examples:
     >>> from str2date import str2date
     >>> print( str2date( '1998-07-06T05:04:03-02:00' ))
     1998-07-06 05:04:03-02:00
+    >>> print( str2date( '19980706T050403-0200' ))
+    1998-07-06 05:04:03-02:00
     >>> print( str2date( '1998-07-06T05:04:03.555-02:00' ))
     1998-07-06 05:04:03.555000-02:00
     >>> print( str2date( '1998-07-06 05:04:03,555-02:00' ))
@@ -29,3 +33,8 @@ Examples:
 Install with `pip install str2date` or copy `str2date.py` to your project.
 
 MIT License.
+
+*Rev. 0.905:*
+- Add basic format
+- Add tests
+- Fix bug, documentation

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#    str2date version 0.9 - Proper Parser of ISO 8601 Calendar Date and Time Strings
+#    str2date - Proper Parser of ISO 8601 Calendar Date and Time Strings
 #    Copyright (c) 2016 Avner Herskovits
 #
 #    MIT License
@@ -27,20 +27,23 @@
 import datetime
 from re import compile
 
-_date_re  = compile( '^([0-9]{4})(?:\-(0[0-9]|1[0-2])(?:\-([0-2][0-9]|3[01])(?:(?:T|\s)([01][0-9]|2[0-4])(?:\:([0-5][0-9])(?:\:([0-5][0-9]|60))?)?(?:[\.,]([0-9]+))?([zZ]|[+-](?:[01][0-9]|2[0-4])\:[0-5][0-9])?)?)?)?$' )
+_date_re  = compile( '^(?:([0-9]{4})(?:\-(0[0-9]|1[0-2])(?:\-([0-2][0-9]|3[01])(?:[T\s]([012][0-9])(?:\:([0-5][0-9])(?:\:([0-5][0-9]|60))?)?(?:[\.,]([0-9]+))?([zZ]|[+-](?:[01][0-9]|2[0-4])\:[0-5][0-9])?)?)?)?)$|^(?:([0-9]{4})(?:(0[0-9]|1[0-2])(?:([0-2][0-9]|3[01])(?:[T\s]([012][0-9]|2[0-4])(?:([0-5][0-9])(?:([0-5][0-9]|60))?)?(?:[\.,]([0-9]+))?([zZ]|[+-](?:[01][0-9]|2[0-4])[0-5][0-9])?)?)?)?)$' )
 
 def str2date( string ):
 
-    YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, MICROSECOND, TIMEZONE = 0, 1, 2, 3, 4, 5, 6, 7
-
     parsed = _date_re. match( string )
+
     if parsed is None: return None
 
     parsed = parsed. groups()
+    shift = 0 if parsed[ 8 ] is None else 8
+
+    YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, MICROSECOND, TIMEZONE = ( i + shift for i in range( 8 ))
+
     if parsed[ TIMEZONE ] is None or parsed[ TIMEZONE ] in 'zZ':
         zone = 0
     else:
-        tzh, tzm = list( map( int, parsed[ TIMEZONE ]. split( ':' )))
+        tzh, tzm = int( parsed[ TIMEZONE ][ :3 ]), int( parsed[ TIMEZONE ][ -2: ])
         if parsed[ TIMEZONE ][ 0 ] is '-':
             zone = tzh * 3600 - tzm * 60
         else:

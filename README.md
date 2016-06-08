@@ -16,6 +16,11 @@ Some points to note:
 
 - Time fraction separator can be either a period (.) or a comma (,). No limit to the number of fraction digits, although the result will be rounded to the nearest microsecond.
 
+- The use of `+00` for timezone (i.e., only the hourly part with no minutes designation) is ommitted in accordance with IETF's guidance
+to avoid rarely used options (e.g., RFC 3339 s. 5.3).
+
+- The timezone `-00:00`/`-0000` is interpreted in the same way as `+00:00`/`+0000`, i.e., as UTC.
+
 Examples:
 
     >>> from str2date import str2date
